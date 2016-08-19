@@ -9,19 +9,28 @@
 int main(int argc, char** argv)
 {
 	int fd;
+	int dataSize;
 	char * cmd[] = {"ls", "-l", NULL};
+	char buf[2];
 	pid_t child;
-	char * buf = malloc ( sizeof )
 
-	if (!strcmp(argv[0], "cat")) {
+	if (!strcmp(argv[1], "cat")) {
 		/* Code to implement cat */
-		fd = open(argv[0], O_RDONLY);
+
+                fd = open(argv[2], O_RDONLY);
 		
-		
-	} else if (!strcmp(argv[0], "mv")) {
+		do {
+			dataSize = read(fd, buf, 1);
+			printf("%c", buf[0]);
+		} while (dataSize != 0);
+
+		close(fd);
+                exit(20);
+	} else if (!strcmp(argv[1], "mv")) {
 		/* Code to implement mv */
-	} else if (!strcmp(argv[0], "ls")){
+	} else if (!strcmp(argv[1], "ls")){
 		/* Code to implement ls */
+
 		child = fork();
 		if (child < 0) {
 			printf("Error creating child process\n");
