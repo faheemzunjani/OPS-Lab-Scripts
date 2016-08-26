@@ -1,24 +1,24 @@
 #include <stdio.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
-int main(void)
+int main(int argc, char** argv)
 {
-   FILE *fp;
-   char filename[80];
-   long length;
+	int fd;
+	long long int size;
 
-   printf("Input file name:");
-   scanf("%s",filename);
-   fp = fopen(filename,"rb");
+	fd = open(argv[1], O_RDONLY);
 
-   if(fp==NULL) {
-      printf("File not found!\n");
-   }
-   else {
-      fseek(fp,0L,SEEK_END);
-      length=ftell(fp);
-      printf("The file's length is %1ld Bytes.\n",length);
-      fclose(fp);
-   }
+	off_t currentPos = lseek(fd, (size_t)0, SEEK_CUR);
+	size = lseek(fd, (size_t)0, SEEK_END);
 
-   return 0;
+	printf("Size of %s : %lld\n", argv[1], size);
+
+	close(fd);
+
+	return 1;
 }
+
