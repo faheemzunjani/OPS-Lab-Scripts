@@ -31,8 +31,8 @@ int main(int argc, char** argv)
 	} else if (!strcmp(argv[1], "mv")) {
 		/* Code to implement mv */
 		
-		fd1 = open(argv[2], O_RDWR);
-		fd2 = creat(argv[3], O_RDWR);
+		fd1 = open(argv[2], O_RDWR, 0777);
+		fd2 = open(argv[3], O_RDWR | O_CREAT, 0777);
 
 		do {
 			dataSize = read(fd1, buf, 1);
