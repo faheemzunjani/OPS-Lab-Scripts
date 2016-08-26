@@ -9,6 +9,8 @@
 int main(int argc, char** argv)
 {
 	int fd;
+	int fd1;
+	int fd2;
 	int dataSize;
 	char * cmd[] = {"ls", "-l", NULL};
 	char buf[2];
@@ -28,6 +30,20 @@ int main(int argc, char** argv)
                 exit(20);
 	} else if (!strcmp(argv[1], "mv")) {
 		/* Code to implement mv */
+		
+		fd1 = open(argv[2], O_RDWR);
+		fd2 = creat(argv[3], O_RDWR);
+
+		do {
+			dataSize = read(fd1, buf, 1);
+			printf("%c", buf[0]);
+			write(fd2, buf, 1);
+		} while (dataSize != 0);
+
+		close(fd1);
+		unlink(argv[2]);
+		close(fd2);
+		exit(20);
 	} else if (!strcmp(argv[1], "ls")){
 		/* Code to implement ls */
 
