@@ -36,7 +36,6 @@ int main(int argc, char** argv)
 
 		do {
 			dataSize = read(fd1, buf, 1);
-			printf("%c", buf[0]);
 			write(fd2, buf, 1);
 		} while (dataSize != 0);
 
