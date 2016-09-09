@@ -19,15 +19,18 @@ int rmrf(char *path)
     return nftw(path, unlink_cb, 64, FTW_DEPTH | FTW_PHYS);
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
 	if(argc!=2){
 		printf("Invalid arguments!\n");
 		printf("Usage: %s <dir_name>\n", argv[0]);
 		exit(1);
 	}
-	if(rmrf(argv[1]) == 0)
+	if(rmrf(argv[1]) == 0) {
 		printf( "Succesfully deleted %s!\n", argv[1]);
-	else
+	} else {
 		printf("Error deleting %s!\n", argv[1]);
+	}
+
 	return 0;
 }
