@@ -23,11 +23,11 @@ int finddir(char *dir, int depth, char *file)
 			/* Found a directory, but ignore . and .. */
 			if(strcmp(".",entry->d_name) == 0 || strcmp("..",entry->d_name) == 0)
 				continue;
-			//printf("%*s%s/\n",depth,"",entry->d_name);
+			printf("%*s%s/\n",depth,"",entry->d_name);
 			finddir(entry->d_name,depth+4, file);
 		}
 		else{
-			//printf("%*s%s\n",depth,"",entry->d_name);
+			printf("%*s%s\n",depth,"",entry->d_name);
 			if(strcmp(entry->d_name, file)==0){
 				if (getcwd(cwd, sizeof(cwd)) != NULL)
 					printf("Found at: %s/%s\n",cwd,entry->d_name);
