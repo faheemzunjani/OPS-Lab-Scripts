@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
 	FILE *fptr;
 	float avg_wt;
 	float avg_tat;
-	float sd_wt;
+	float sd_tat;
 	float var;
 	float sum_var;
 	float temp_sum;
@@ -36,7 +36,7 @@ int main(int argc, char ** argv)
 	fptr = fopen(filename, "r");
 	
 	/* Input from file */	
-	for (N = 0; !feof(fptr) && processes[N].name[0] != 'x'; N++) {	
+	for (N = 0; !feof(fptr); N++) {	
 		fscanf(fptr, "%s %d %f %f %f %d", processes[N].name, 
 			&processes[N].arr_t, &processes[N].bt, &processes[N].io_et, 
 			&processes[N].io_wt, &processes[N].priority);
@@ -71,17 +71,17 @@ int main(int argc, char ** argv)
 		avg_tat += processes[i].tat;
 	}
 	
-	avg_tat /= (float) (N + 1);
-	avg_wt /= (float) (N + 1);
+	avg_tat /= (float) (N);
+	avg_wt /= (float) (N);
 	sum_var = 0;
 
-	/* Computing standard deviation of wait times */
+	/* Computing standard deviation of turn around times times */
 	for (i = 0; i < N; i++) {
-		var = pow((processes[i].wt - avg_wt), 2);
+		var = pow((processes[i].tat - avg_tat), 2);
 		sum_var += var;
 	}
 
-	sd_wt = pow((sum_var / (float) N), (1 / 2));
+	sd_tat = pow((sum_var / (float) N), (1 / 2));
 
 	/* Displaying the output */
 	printf("\tprocess name \t turn around time \t total wait time\n");
@@ -91,8 +91,8 @@ int main(int argc, char ** argv)
 			processes[i].tat, processes[i].wt);
 	}
 
-	printf("The average time for processes to complete was %f \n", avg_wt);
-	printf("The standard deviation for the average process completion time was %f \n", sd_wt);	
+	printf("The average time for processes to complete was %f \n", avg_tat);
+	printf("The standard deviation for the average process completion time was %f \n", sd_tat);	
 
 	return 0;
 }
