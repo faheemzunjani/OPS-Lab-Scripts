@@ -20,6 +20,7 @@ int main(int argc, char ** argv)
 	float sd_wt;
 	float var;
 	float sum_var;
+	float temp_sum;
 	int i;
 	int j;
 	int N;
@@ -43,13 +44,23 @@ int main(int argc, char ** argv)
 			break;
 		}
 	}
+
 	fclose(fptr);
 	
+	temp_sum = 0;
+
+	/* Computing arrival times wrt to P1*/
+	for (i = 0; i < N; i++) {
+		temp_sum += processes[i].arr_t;
+		processes[i].arr_t = temp_sum;	
+	}	
+
 	/* Computing wait times */
 	for (i = 0; i < N; i++) {
 		processes[i].wt = 0;
 		for (j = 0; j < i; j++) {
 			processes[i].wt += processes[j].bt;
+			processes[i].wt -= processes[i].arr_t;
 			avg_wt += processes[i].wt;
 		}
 	}
