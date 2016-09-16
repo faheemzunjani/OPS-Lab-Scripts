@@ -2,7 +2,7 @@
 #include <math.h>
 
 struct process {
-	char * name;
+	char name[100];
 	int arr_t;
 	float bt;
 	float io_et;
@@ -12,7 +12,7 @@ struct process {
 	float wt;
 };
 
-int main()
+int main(int argc, char ** argv)
 {
 	FILE *fptr;
 	float avg_wt;
@@ -23,7 +23,7 @@ int main()
 	int i;
 	int j;
 	int N;
-	char * filename;
+	char filename[100];
 	struct process processes[100];
 	
 	avg_wt = 0.0;
@@ -35,16 +35,18 @@ int main()
 	fptr = fopen(filename, "r");
 	
 	/* Input from file */	
-	for (N = 0; !feof(fptr); N++) {	
+	for (N = 0; !feof(fptr) && processes[N].name[0] != 'x'; N++) {	
 		fscanf(fptr, "%s %d %f %f %f %d", processes[N].name, 
-			processes[N].arr_t, processes[N].bt, processes[N].io_et, 
-			processes[N].io_wt, processes[N].priority);
+			&processes[N].arr_t, &processes[N].bt, &processes[N].io_et, 
+			&processes[N].io_wt, &processes[N].priority);
+		if (processes[N].name[0] == 'x') {
+			break;
+		}
 	}
+	fclose(fptr);
 	
-	close(fptr);
-
 	/* Computing wait times */
-	for (i = 0; i < N - 1; i++) {
+	for (i = 0; i < N; i++) {
 		processes[i].wt = 0;
 		for (j = 0; j < i; j++) {
 			processes[i].wt += processes[j].bt;
@@ -52,18 +54,18 @@ int main()
 		}
 	}
 	
-	/* Computing turn around times */
-	for (i = 0; i < N - 1; i++) {
+	/* Computing turn around times */ 
+	for (i = 0; i < N; i++) {
 		processes[i].tat = processes[i].wt + processes[i].bt;
 		avg_tat += processes[i].tat;
 	}
 	
-	avg_tat /= (float) (N);
-	avg_wt /= (float) (N);
+	avg_tat /= (float) (N + 1);
+	avg_wt /= (float) (N + 1);
 	sum_var = 0;
 
 	/* Computing standard deviation of wait times */
-	for (i = 0; i < N - 1; i++) {
+	for (i = 0; i < N; i++) {
 		var = pow((processes[i].wt - avg_wt), 2);
 		sum_var += var;
 	}
@@ -73,8 +75,8 @@ int main()
 	/* Displaying the output */
 	printf("\tprocess name \t turn around time \t total wait time\n");
 
-	for (i = 0; i < N - 1; i++) {
-		printf("\t %s \t %f \t %f \n", processes[i].name, 
+	for (i = 0; i < N; i++) {
+		printf("\t      %s \t      %f \t      %f \n", processes[i].name, 
 			processes[i].tat, processes[i].wt);
 	}
 
