@@ -1,50 +1,85 @@
 #include <stdio.h>
+#include <math.h>
 
-int main(int argc, char ** argv)
+struct process {
+	char * name;
+	int arr_t;
+	float bt;
+	float io_et;
+	float io_wt;
+	int priority;
+	float tat;
+	float wt;
+};
+
+int main()
 {
 	FILE *fptr;
-	int pid[1000];
-	float bt[1000];
-	float wt[1000];
-	float tat[1000];
 	float avg_wt;
 	float avg_tat;
+	float sd_wt;
+	float var;
+	float sum_var;
 	int i;
 	int j;
 	int N;
+	char * filename;
+	struct process processes[100];
 	
 	avg_wt = 0.0;
 	avg_tat = 0.0;
 
-	fptr = fopen(argv[1], "r");
+	printf("The name of the file to be read: ");
+	scanf("%s", filename);
 
+	fptr = fopen(filename, "r");
+	
+	/* Input from file */	
 	for (N = 0; !feof(fptr); N++) {	
-		fscanf(fptr, "%d %f", &pid[N], &bt[N]);
-	}
-	
-	for (i = 0; i < N - 1; i++) {
-		wt[i] = 0;
-		for (j = 0; j < i; j++) {
-			wt[i] += bt[j];
-			avg_wt += wt[i];
-		}
-	}
-
-	for (i = 0; i < N - 1; i++) {
-		tat[i] = wt[i] + bt[i];
-		avg_tat += tat[i];
-	}
-	
-	avg_tat /= (float)(N);
-	avg_wt /= (float)(N);
-
-	printf("PID \t Burst Time \t Waiting Time \t Turn Around Time\n");
-
-	for (i = 0; i < N - 1; i++) {
-		printf("%d \t %f \t %f \t %f\n", pid[i], bt[i], wt[i], tat[i]);
+		fscanf(fptr, "%s %d %f %f %f %d", processes[N].name, 
+			processes[N].arr_t, processes[N].bt, processes[N].io_et, 
+			processes[N].io_wt, processes[N].priority);
 	}
 	
 	close(fptr);
+
+	/* Computing wait times */
+	for (i = 0; i < N - 1; i++) {
+		processes[i].wt = 0;
+		for (j = 0; j < i; j++) {
+			processes[i].wt += processes[j].bt;
+			avg_wt += processes[i].wt;
+		}
+	}
+	
+	/* Computing turn around times */
+	for (i = 0; i < N - 1; i++) {
+		processes[i].tat = processes[i].wt + processes[i].bt;
+		avg_tat += processes[i].tat;
+	}
+	
+	avg_tat /= (float) (N);
+	avg_wt /= (float) (N);
+	sum_var = 0;
+
+	/* Computing standard deviation of wait times */
+	for (i = 0; i < N - 1; i++) {
+		var = pow((processes[i].wt - avg_wt), 2);
+		sum_var += var;
+	}
+
+	sd_wt = pow((sum_var / (float) N), (1 / 2));
+
+	/* Displaying the output */
+	printf("\tprocess name \t turn around time \t total wait time\n");
+
+	for (i = 0; i < N - 1; i++) {
+		printf("\t %s \t %f \t %f \n", processes[i].name, 
+			processes[i].tat, processes[i].wt);
+	}
+
+	printf("The average time for processes to complete was %f \n", avg_wt);
+	printf("The standard deviation for the average process completion time was %f \n", sd_wt);	
 
 	return 0;
 }
