@@ -58,11 +58,13 @@ int main(int argc, char ** argv)
 	/* Computing wait times */
 	for (i = 0; i < N; i++) {
 		processes[i].wt = 0;
+
 		for (j = 0; j < i; j++) {
 			processes[i].wt += processes[j].bt;
-			processes[i].wt -= processes[i].arr_t;
-			avg_wt += processes[i].wt;
 		}
+
+		processes[i].wt -= processes[i].arr_t;
+		avg_wt += processes[i].wt;
 	}
 	
 	/* Computing turn around times */ 
