@@ -90,6 +90,7 @@ int main(int argc, char ** argv)
             	if (processes[i].arr_t <= et && processes[i].in_queue != 1) {
                 	queue[q_N] = processes[i];
                 	processes[i].in_queue = 1;
+                	printf("adding %s\n", processes[i].name);
                 	q_N++;                                	
             	}
         	}
@@ -114,7 +115,7 @@ int main(int argc, char ** argv)
         	for (i = min_p; i < q_N; i++) {
 				queue[i] = queue[i + 1];
 			}
-
+			printf("removing %s\n", processes[min_p].name);
 			q_N--;
         }
 	}
