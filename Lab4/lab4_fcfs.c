@@ -83,7 +83,7 @@ int main(int argc, char ** argv)
 		sum_var += var;
 	}
 
-	sd_tat = pow((sum_var / (float) N), (1 / 2));
+	sd_tat = pow((sum_var / (float) N), 0.5);
 
 	/* Displaying the output */
 	printf("\tprocess name \t turn around time \t total wait time\n");
