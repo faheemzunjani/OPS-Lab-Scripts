@@ -65,6 +65,7 @@ int main(int argc, char ** argv)
 		processes[N].p_no = N;
 		processes[N].wt = 0;
 		processes[N].tat = 0;
+		processes[N].in_queue = 0;
 
 		if (processes[N].name[0] == 'x') {
 			break;

@@ -10,6 +10,8 @@ struct process {
 	int priority;
 	float tat;
 	float wt;
+	int in_queue;
+	int p_no;
 };
 
 int main(int argc, char ** argv)
@@ -21,11 +23,16 @@ int main(int argc, char ** argv)
 	float var;
 	float sum_var;
 	float temp_sum;
+	float et;
 	int i;
 	int j;
 	int N;
+	int q_N;
+	int min_p;
+	int prev_min_p;
 	char filename[100];
 	struct process processes[100];
+	struct process queue[100];
 	
 	avg_wt = 0.0;
 	avg_tat = 0.0;
@@ -40,6 +47,12 @@ int main(int argc, char ** argv)
 		fscanf(fptr, "%s %d %f %f %f %d", processes[N].name, 
 			&processes[N].arr_t, &processes[N].bt, &processes[N].io_et, 
 			&processes[N].io_wt, &processes[N].priority);
+		
+		processes[N].p_no = N;
+		processes[N].wt = 0;
+		processes[N].tat = 0;
+		processes[N].in_queue = 0;
+
 		if (processes[N].name[0] == 'x') {
 			break;
 		}
@@ -52,24 +65,61 @@ int main(int argc, char ** argv)
 	/* Computing arrival times wrt to P1*/
 	for (i = 0; i < N; i++) {
 		temp_sum += processes[i].arr_t;
-		processes[i].arr_t = temp_sum;	
+		processes[i].arr_t = temp_sum;
 	}	
 
-	/* Computing wait times */
-	for (i = 0; i < N; i++) {
-		processes[i].wt = 0;
-		for (j = 0; j < i; j++) {
-			processes[i].wt += processes[j].bt;
-			processes[i].wt -= processes[i].arr_t;
-			avg_wt += processes[i].wt;
-		}
-	}
+	q_N = 1;
+	et = 0;
 	
-	/* Computing turn around times */ 
-	for (i = 0; i < N; i++) {
-		processes[i].tat = processes[i].wt + processes[i].bt;
-		avg_tat += processes[i].tat;
+	queue[0] = processes[0];
+	processes[0].in_queue = 1;
+	min_p = 0;
+
+	while (q_N != 0) {
+		prev_min_p = min_p;
+
+		/* Finding process with min burst time */
+		while (prev_min_p == min_p && queue[min_p].bt != 0) {
+			queue[min_p].bt--;
+			et++;
+			processes[min_p].wt--;
+
+
+			/* Adding processes to ready queue by their arrival time */
+			for (i = 0; i < N; i++) {
+            	if (processes[i].arr_t <= et && processes[i].in_queue != 1) {
+                	queue[q_N] = processes[i];
+                	processes[i].in_queue = 1;
+                	q_N++;                                	
+            	}
+        	}
+
+        	/* Finding process with min burst time */
+			for (i = 0; i < q_N; i++) {
+				if (queue[i].bt < queue[min_p].bt) {
+					min_p = i;
+				}
+			}
+		}
+
+		processes[prev_min_p].wt += et;
+
+        if (queue[min_p].bt == 0) {
+        	processes[min_p].wt -= processes[min_p].arr_t;
+        	processes[min_p].tat = et;
+
+        	avg_wt += processes[min_p].wt;
+        	avg_tat += processes[min_p].tat;
+
+        	for (i = min_p; i < q_N; i++) {
+				queue[i] = queue[i + 1];
+			}
+
+			q_N--;
+        }
 	}
+
+	
 	
 	avg_tat /= (float) (N);
 	avg_wt /= (float) (N);
