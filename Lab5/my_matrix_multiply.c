@@ -54,6 +54,7 @@ int main(int argc, char ** argv)
         }
 
 	/* Verifying A and B */
+	/* 
 	for (i = 0; i < r_A; i++) {
 		for (j = 0; j < c_A; j++) {
 			printf("%lf ", A[i][j]);
@@ -67,6 +68,7 @@ int main(int argc, char ** argv)
                 }
                 printf("\n");
         }
+	*/
 
 	/* Printing product matrix */
 	printf("%d %d\n", r_A, c_B);
