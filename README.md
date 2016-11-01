@@ -7,7 +7,7 @@ The lab assignments which require special kinds of inputs contain a README file 
 
 Please note that all the programs may not be the most efficient approach to solving the problem and are just my implementations.
 
-To report bug/improvement:
+To report bug/improvement:  
 1. Go to Issues page of this repository.  
 2. Create a detailed issue and submit.  
 
