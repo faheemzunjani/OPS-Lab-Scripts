@@ -65,6 +65,25 @@ int main(int argc, char ** argv)
 		}
 	}
 
+	/* Verifying A and B */
+	/*
+	for (i = 0; i < r_A; i++) {
+		for (j = 0; j < c_A; j++) {
+			printf("%lf ", A[i][j]);
+		}
+		printf("\n");
+	}
+	
+	printf("\n");
+
+	for (i = 0; i < r_A; i++) {
+        for (j = 0; j < c_A; j++) {
+            printf("%lf ", B[i][j]);
+        }
+        printf("\n");
+    }
+	*/
+
 	if (c_A != r_B) {
 		printf("Incompatible matrices for matrix multiplication!\n");
 		exit(EXIT_FAILURE);
@@ -84,10 +103,11 @@ int main(int argc, char ** argv)
 	}
 
 	/* Verifying work division */
-
+	/*
 	for (i = 0; i < t_c; i++) {
 		printf("%d\n", t_jobs[i]);
 	}
+	*/
 
 	/* Threaded matrix multiplication */
 
@@ -107,23 +127,6 @@ int main(int argc, char ** argv)
 	for (i = 0; i < t_c; i++) {
 		pthread_join(threads[i], NULL);
 	}
-	
-	/* Verifying A and B */
-
-	for (i = 0; i < r_A; i++) {
-		for (j = 0; j < c_A; j++) {
-			printf("%lf ", A[i][j]);
-		}
-		printf("\n");
-	}
-
-	for (i = 0; i < r_A; i++) {
-        for (j = 0; j < c_A; j++) {
-            printf("%lf ", B[i][j]);
-        }
-        printf("\n");
-    }
-	
 
 	/* Printing product matrix */
 
