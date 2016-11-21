@@ -18,6 +18,7 @@ int main()
 	int p_N;
 	int f_size;
 	int l_N;
+	int j;
 	int i;
 	int p_faults;
 	int loc;
@@ -60,7 +61,6 @@ int main()
 		}	
 
 		print_list(frame, l_N);
-		printf("%d %d %d\n", frame[0].age, frame[1].age, frame[2].age);
 	}
 
 	printf("\nPage Faults: %d\n", p_faults);
@@ -96,6 +96,7 @@ int find_lru(struct list l[100], int * N)
 	for (i = 1; i < *N; i++) {
 		if (l[i].age > max_age) {
 			max_i = i;
+			max_age = l[i].age;
 		}
 	}
 	
