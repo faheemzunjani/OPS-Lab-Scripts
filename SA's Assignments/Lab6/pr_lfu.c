@@ -57,7 +57,6 @@ int main()
 		}	
 
 		print_list(frame, l_N);
-		printf("%d %d %d\n", frame[0].freq, frame[1].freq, frame[2].freq);
 	}
 
 	printf("\nPage Faults: %d\n", p_faults);
