@@ -1,15 +1,15 @@
 #include <stdio.h>
 
-int main(int argc, char ** argc)
+int main(int argc, char ** argv)
 {
 	int status;
 
-	status = remove(argc[1]);
+	status = remove(argv[1]);
 
 	if (status == 0) {
-		printf("%s deleted successfully!\n", argc[1]);
+		printf("%s deleted successfully!\n", argv[1]);
 	} else {
-		printf("Error: Unable to delete %s!\n", argc[1]);
+		printf("Error: Unable to delete %s!\n", argv[1]);
 	}
 
 	return 0;
