@@ -34,7 +34,7 @@ int main()
 
 	total_mov = 0;
 
-	for (i = 0; i < N; i ++) {
+	for (i = 0; i < N; i++) {
 		min_st = INT_MAX;
 
 		for (j = 0; j < N; j++) {
