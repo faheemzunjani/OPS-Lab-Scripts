@@ -23,7 +23,7 @@ int main()
 
 	total_mov = 0;
 
-	for (i = 0; i < N; i ++) {
+	for (i = 0; i < N; i++) {
 		total_mov += abs(req_queue[i] - cur_head);
 		cur_head = req_queue[i];
 	}
