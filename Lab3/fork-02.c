@@ -6,9 +6,10 @@
 /* ----------------------------------------------------------------- */
 
 #include  <stdio.h>
+#include  <unistd.h>
 #include  <sys/types.h>
 
-#define   MAX_COUNT  200
+#define   MAX_COUNT  10
 
 void  ChildProcess(void);                /* child process prototype  */
 void  ParentProcess(void);               /* parent process prototype */

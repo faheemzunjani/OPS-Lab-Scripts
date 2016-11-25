@@ -9,16 +9,7 @@ int main()
 	else
 		printf("%p child\n",&a);
 
-
 	while(1);
-
-
-
-
-
-
-
-
 
 	return 0;
 }

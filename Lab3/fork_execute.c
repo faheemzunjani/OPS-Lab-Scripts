@@ -1,25 +1,23 @@
-#include<stdio.h>
-#include<sys/types.h>
-#include<sys/wait.h>
-#include<stdlib.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-int main(){
+int main()
+{
+	int pid;
+	int status;
 
-int pid;
-int status;
+	pid =fork();
 
- pid =fork();
- if(pid>0){
-  pid=wait(&status);
- }
+	if (pid > 0) {
+		pid = wait(&status);
+	} else {
+		execlp("ls","",NULL);
+		exit(0);
+	}
 
-else{
-execlp("ls","",NULL);
-exit(0);
-}
-
-
-
+	return 0;
 }
 
