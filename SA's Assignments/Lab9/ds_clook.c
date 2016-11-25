@@ -20,12 +20,14 @@ int main()
 	int begin;
 	int count;
 	int max_head_no;
-
+	int min_head_no;
+	int min_head_i;
 
 	printf("Enter no. of requests: ");
 	scanf("%d", &N);
 
 	max_head_no = -1;
+	min_head_no = INT_MAX;
 
 	printf("Enter request queue: ");
 
@@ -35,6 +37,11 @@ int main()
 
 		if (queue[i].head_no > max_head_no) {
 			max_head_no = queue[i].head_no;
+		}
+
+		if (queue[i].head_no < min_head_no) {
+			min_head_no = queue[i].head_no;
+			min_head_i = i;
 		}
 	}
 
@@ -61,8 +68,10 @@ int main()
 		count++;
 	}
 
-	total_mov += max_head_no;
-	cur_head = 0;
+	total_mov += (max_head_no - min_head_no);
+	cur_head = min_head_no;
+	queue[min_head_i].visited = 1;
+	count++;
 
 	while (count < N) {
 		min_st = INT_MAX;
